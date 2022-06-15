@@ -8,8 +8,8 @@ if len(sys.argv) != 2:
     print "\n[*] Usage: python " + sys.argv[0] + "<ip-address>\n"
     sys.exit(1)
 
-def return_ttl(address):
-    proc = subprocess.Popen(["ping -c 1 %s" % addres, ""], stdout=subprocess.PIPE, shell=True)
+def return_ttl(addr):
+    proc = subprocess.Popen(["ping -c 1 %s" % addr, ""], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     out = out.split()
     out = re.findall(r"\d{1,3}", out[12])
