@@ -5,7 +5,7 @@ import re
 import sys
 
 if len(sys.argv) != 2:
-    print "\n[*] Usage: python " + sys.argv[0] + "<ip-address>\n"
+    print ("\n[*] Usage: python " + sys.argv[0] + "<ip-address>\n")
     sys.exit(1)
 
 def return_ttl(addr):
@@ -25,12 +25,12 @@ def return_ttl_os_name(ttl_number):
     else:
         return "Unknwon"    
 
-if __name__ == '__main__´:
+if __name__ == '__main__':
     addr = sys.argv[1]
     ttl = return_ttl(addr)
 
     try:    
-            print"\n%s -> %s" % (addr, return_ttl_os_name(int(ttl)))
+            print("\n%s -> %s" % (addr, return_ttl_os_name(int(ttl))))
 
     except:
             pass
