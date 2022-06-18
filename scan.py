@@ -1,36 +1,39 @@
-#!/usr/bin/python
-
-import subprocess
-import re
-import sys
-
+import re, sys, subprocess
+ 
+# python3 wichSystem.py 10.10.10.188 
+ 
 if len(sys.argv) != 2:
-    print ("\n[*] Usage: python " + sys.argv[0] + "<ip-address>\n")
+    print("\n[!] Uso: python3 " + sys.argv[0] + " <direccion-ip>\n")
     sys.exit(1)
-
-def return_ttl(addr):
-    proc = subprocess.Popen(["ping -c 1 %s" % addr, ""], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
+ 
+def get_ttl(ip_address):
+ 
+    proc = subprocess.Popen(["/usr/bin/ping -c 1 %s" % ip_address, ""], stdout=subprocess.PIPE, shell=True)
+    (out,err) = proc.communicate()
+ 
     out = out.split()
-    out = re.findall(r"\d{1,3}", out[12])
-    
-    return out[0]
-
-def return_ttl_os_name(ttl_number):
-
-    if ttl_number >= 0 and ttl_number <= 64:
-            return "Linux"
-    elif ttl_number >= 65 and ttl_number <= 128:
-            return "Windows"
+    out = out[12].decode('utf-8')
+ 
+    ttl_value = re.findall(r"\d{1,3}", out)[0]
+ 
+    return ttl_value
+ 
+def get_os(ttl):
+ 
+    ttl = int(ttl)
+ 
+    if ttl >= 0 and ttl <= 64:
+        return "Linux"
+    elif ttl >= 65 and ttl <= 128:
+        return "Windows"
     else:
-        return "Unknwon"    
-
+        return "Not Found"
+ 
 if __name__ == '__main__':
-    addr = sys.argv[1]
-    ttl = return_ttl(addr)
-
-    try:    
-            print("\n%s -> %s" % (addr, return_ttl_os_name(int(ttl))))
-
-    except:
-            pass
+ 
+    ip_address = sys.argv[1]
+ 
+    ttl = get_ttl(ip_address)
+ 
+    os_name = get_os(ttl)
+    print("\n%s (ttl -> %s): %s\n" % (ip_address, ttl, os_name))
